@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:layered_architecture/domain/repositories/coffee_house_repository.dart';
 import 'package:layered_architecture/domain/repositories/notification_repository.dart';
+import 'package:layered_architecture/domain/usecases/coffee_house/brew_coffee/brew_coffee.dart';
 import 'package:layered_architecture/presentation/blocs/coffee_house/coffee_house_bloc.dart';
 import 'package:layered_architecture/presentation/blocs/coffee_house/coffee_house_event.dart';
 import 'package:layered_architecture/presentation/blocs/coffee_house/coffee_house_state.dart';
@@ -38,9 +39,12 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => CoffeeHouseBloc(
-            coffeeHouseRepository: context.read<StarbucksChainRepository>(),
-            notificationRepository: context.read(),
-          ),
+              coffeeHouseRepository: context.read<StarbucksChainRepository>(),
+              notificationRepository: context.read(),
+              brewCoffeeUseCase: BrewCoffeeUseCase(
+                coffeeHouseRepository: context.read<StarbucksChainRepository>(),
+                notificationRepository: context.read(),
+              )),
         ),
       ],
       child: MaterialApp(
@@ -98,10 +102,10 @@ class MainApp extends StatelessWidget {
                                       context
                                           .read<CoffeeHouseBloc>()
                                           .add(const CoffeeHouseBrewCoffee(
-                                            coffee: 'Latte macchiato',
+                                            coffee: 'Pumpkin Spice Latte',
                                           ));
                                     },
-                              child: const Text('Brew latte macchiato'),
+                              child: const Text('Brew Pumpkin Spice Latte'),
                             ),
                           ],
                         );

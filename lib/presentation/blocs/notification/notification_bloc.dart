@@ -12,7 +12,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   }) : super(const NotificationInitial()) {
     on<NotificationReceived>(_onNotificationReceived);
     _notificationRepositorySubscription = notificationRepository.stream.listen(
-      (status) => add(NotificationReceived(message: status)),
+      (message) => add(NotificationReceived(message: message)),
     );
   }
 
