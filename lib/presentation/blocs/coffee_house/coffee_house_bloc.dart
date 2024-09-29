@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:layered_architecture/domain/repositories/coffee_house_repository.dart';
+import 'package:layered_architecture/domain/repositories/coffee_house_repository_contract.dart';
 import 'package:layered_architecture/domain/repositories/notification_repository.dart';
 import 'package:layered_architecture/domain/usecases/coffee_house/brew_coffee/brew_coffee.dart';
 import 'package:layered_architecture/presentation/blocs/coffee_house/coffee_house_event.dart';
