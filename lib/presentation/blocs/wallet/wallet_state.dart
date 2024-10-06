@@ -1,7 +1,9 @@
 part of 'wallet_bloc.dart';
 
 sealed class WalletState extends Equatable {
-  get amount => 0;
+  const WalletState();
+
+  int get amount => 0;
 
   @override
   List<Object?> get props => [
@@ -11,6 +13,20 @@ sealed class WalletState extends Equatable {
   @override
   bool? get stringify => false;
 }
+
+// abstract class WalletState extends Equatable {
+//   const WalletState();
+
+//   int get amount;
+
+//   @override
+//   List<Object?> get props => [
+//         amount,
+//       ];
+
+//   @override
+//   bool? get stringify => false;
+// }
 
 class WalletPure implements WalletState {
   const WalletPure({

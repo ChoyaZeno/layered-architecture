@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'wallet_state.dart';
 part 'wallet_event.dart';
@@ -14,13 +13,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       _onWalletUpdate,
       transformer: debounceAndEmit(
         WalletBloc.debounce,
-        WalletBloc.throttle,
+        WalletBloc.maxEmit,
       ),
     );
   }
 
   static const debounce = Duration(milliseconds: 200);
-  static const throttle = Duration(milliseconds: 500);
+  static const maxEmit = Duration(milliseconds: 500);
 
   void _onWalletUpdate(
     WalletUpdate event,
@@ -55,12 +54,16 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
           controller = StreamController<WalletEvent>(
             onListen: () {
-              stream.listen((event) {
-                lastEvent = event;
-                debounceTimer?.cancel();
-                debounceTimer = Timer(debounceDuration, emitEvent);
-                maxEmitTimer ??= Timer(maxEmitDuration, emitEvent);
-              }, onError: controller.addError, onDone: controller.close);
+              stream.listen(
+                (event) {
+                  lastEvent = event;
+                  debounceTimer?.cancel();
+                  debounceTimer = Timer(debounceDuration, emitEvent);
+                  maxEmitTimer ??= Timer(maxEmitDuration, emitEvent);
+                },
+                onError: controller.addError,
+                onDone: controller.close,
+              );
             },
             onCancel: () {
               debounceTimer?.cancel();
