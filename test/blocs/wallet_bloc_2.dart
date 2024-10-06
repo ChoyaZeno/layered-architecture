@@ -119,5 +119,21 @@ void main() {
         isA<WalletDirty>().having((state) => state.amount, 'amount', 300),
       ],
     );
+
+    blocTest<WalletBloc, WalletState>(
+      'emits [WalletDirty] with cumulative amounts emit after maxEmit reached',
+      build: () => walletBloc,
+      act: (bloc) async {
+        bloc.add(const WalletUpdate(amount: ''));
+        await Future.delayed(delay150ms);
+        bloc.add(const WalletUpdate(amount: ''));
+        await Future.delayed(delay150ms);
+        bloc.add(const WalletUpdate(amount: '')); // State emission at 500ms
+      },
+      wait: maxEmitDuration,
+      expect: () => [
+        isA<WalletDirty>().having((state) => state.amount, 'amount', 100),
+      ],
+    );
   });
 }
