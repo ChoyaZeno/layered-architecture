@@ -6,6 +6,7 @@ import 'package:layered_architecture/presentation/blocs/coffee_house/coffee_hous
 import 'package:layered_architecture/presentation/blocs/coffee_house/coffee_house_state.dart';
 import 'package:layered_architecture/presentation/blocs/notification/notification_bloc.dart';
 import 'package:layered_architecture/presentation/blocs/notification/notification_state.dart';
+import 'package:layered_architecture/presentation/blocs/wallet/wallet_bloc.dart';
 import 'package:layered_architecture/presentation/factories/coffee_house_factory.dart';
 
 void main() {
@@ -35,6 +36,9 @@ class MainApp extends StatelessWidget {
           create: (_) => NotificationBloc(
             notificationRepository: context.read(),
           ),
+        ),
+        BlocProvider(
+          create: (_) => WalletBloc(),
         ),
         BlocProvider(
             create: (_) => CoffeeHouseFactory(
@@ -77,9 +81,18 @@ class MainApp extends StatelessWidget {
                       },
                       child: const Text('Let the world know!'),
                     ),
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<WalletBloc>()
+                            .add(const WalletUpdate(amount: '100'));
+                      },
+                      child: const Text('Add money'),
+                    ),
                     const SizedBox(
                       height: 20.0,
                     ),
+                    Text('Money: ${context.watch<WalletBloc>().state.amount}'),
                     BlocBuilder<CoffeeHouseBloc, CoffeeHouseState>(
                       builder: (context, state) {
                         final storeName =
