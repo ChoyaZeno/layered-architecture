@@ -8,6 +8,7 @@ extension EitherWhenComplete<L, R> on Either<L, R> {
     FutureOr<void> Function() cleanup,
   ) async {
     try {
+      // return await fold(ifLeft, ifRight);
       return await fold(
         (left) async {
           final result = await ifLeft(left);

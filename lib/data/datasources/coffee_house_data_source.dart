@@ -61,18 +61,30 @@ class CoffeeHouseDataSource implements CoffeeHouseDataSourceContract {
     subscription = _releaseMachineStream.stream.listen(
       (key) {
         if (key == id) {
-          final machine = _freeMachines.removeFirst();
           subscription?.cancel();
+          final machine = _freeMachines.removeFirst();
           completer.complete(Right(machine));
         }
       },
       onError: (error) {
+        subscription?.cancel();
         completer.complete(Left('Error: $error'));
       },
     );
 
     _waitingForMachine.add(id);
     unawaited(checkMachine());
+
+    final timer = Timer(const Duration(minutes: 5), () {
+      if (!completer.isCompleted) {
+        subscription?.cancel();
+        completer.complete(const Left('Timeout waiting for machine'));
+      }
+    });
+
+    completer.future
+        .then((_) => timer.cancel())
+        .catchError((_) => timer.cancel());
 
     return completer.future;
   }
