@@ -15,6 +15,9 @@ dependencies:
   synchronized: ^3.1.0+1
   bloc_concurrency: ^0.2.5
   rxdart: ^0.28.0
+  intl: ^0.17.0
+  utilities:
+    path: packages/utilities
 
 dev_dependencies:
   flutter_test:

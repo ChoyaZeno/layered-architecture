@@ -21,7 +21,7 @@ class StarbucksChainRepository extends CoffeeHouseRepositoryContract {
   @override
   Future<Either<String, String>> findMachine() async {
     final machine = await dataSource.getMachine();
-    return machine.fold(Left.new, (machine) {
+    return machine.bind((machine) {
       return Right(machine);
     });
   }

@@ -24,3 +24,27 @@ extension EitherWhenComplete<L, R> on Either<L, R> {
     }
   }
 }
+
+// typedef Concat2<L, R> = Either<L, Tuple2<Either<L, R>, Either<L, R>>>;
+
+// extension EitherConcatenate2<L, R> on Concat2<L, R> {
+//   Either<L, R> selectFirst() {
+//     return fold(
+//       left,
+//       (tuple) => tuple.value1,
+//     );
+//   }
+
+//   Either<L, R> selectSecond() {
+//     return fold(
+//       left,
+//       (tuple) => tuple.value2,
+//     );
+//   }
+// }
+
+// extension EitherConcatenate<L, R> on Either<L, R> {
+//   Concat2<L, R> concat(Either<L, R> other) {
+//     return right(tuple2(this, other));
+//   }
+// }

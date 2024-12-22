@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:layered_architecture/domain/repositories/coffee_house_repository_contract.dart';
 import 'package:layered_architecture/domain/repositories/notification_repository.dart';
 import 'package:layered_architecture/domain/usecases/coffee_house/take_product_while/take_product_while.dart';
-import 'package:layered_architecture/core/utils/either_extensions.dart';
+import 'package:utilities/extensions/either_extensions.dart';
 
 part 'brew_coffee_errors.dart';
 part 'brew_coffee_types.dart';
